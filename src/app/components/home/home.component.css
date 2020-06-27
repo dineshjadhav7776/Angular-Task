@@ -1,0 +1,30 @@
+.row {
+    margin-top: 30px;
+}
+
+table.table tr th, table.table tr td {
+    border-color: #cacaca;
+    padding: 12px 15px;
+    text-align: left;
+    justify-content: center;
+    
+}
+th{
+    background-color: rgb(19, 184, 143);
+    color: white;
+    font-size: 15px;
+}
+tr {
+    color: rgb(119, 119, 119);
+    font-weight: bold;
+}
+.searchBox {
+    margin-bottom: 20px;
+    margin-top: 25px;
+}
+.save {
+    margin-left: 10px;
+}
+.add {
+margin-left: 10px;
+}

@@ -1,0 +1,141 @@
+
+<div class="container">
+    <div class="row" >
+        <div class="col-xs-12 col-md-2 offset-md-8 col-lg-12 searchBox">
+            <input type="text" placeholder="search" (keyup) = "SearchData()" [(ngModel)] = "searchKey"> |
+            <button mat-raised-button class="btn btn-primary" (click) = "onCreatetask(Mymodal)">Add</button>
+        </div>
+        <div class="col-xs-12 col-md-6 offset-md-1 col-lg-10" *ngIf="tableDatas.length == 0">
+            <h2>No data to display Add new data to see the table</h2>
+        </div>
+        <div class="col-xs-12 col-md-8 offset-md-2 col-lg-10 DataTable">
+            <mat-table mat-table [dataSource]="listData" class="table table-bordered" matSort (matSortChange) = "sortTask($event)" *ngIf="tableDatas.length != 0">
+                <ng-container matColumnDef="country_Name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header = "countryname"> Country Name</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{ element.country_name }}
+                </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="currancy_Name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header = "currancyname"> Currancy Name </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{ element.currancy_name }}
+                </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="alphabetic_code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header = "a_code"> Alphabetic Code</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{ element.a_code }}
+                </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="numeric_Code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header = "n_code"> Numeric Code </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{ element.n_code }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="stutus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header = "status"> Status </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{ element.status }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <mat-icon style="color: green; cursor: pointer;" (click)="onEditTask(Mymodal,element)">launch</mat-icon>||
+                        <mat-icon style="color: red; cursor: pointer;" (click)= "onDeleteTask(element)">delete_outline</mat-icon>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <mat-paginator *ngIf="tableDatas.length != 0"
+                [pageSizeOptions]="pageSizeOptions"
+                [pageSize]="pageSize"
+                showFirstLastButtons
+            ></mat-paginator>
+        </div>           
+    </div>
+</div>
+
+
+<ng-template #Mymodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Post </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+        </button>
+    </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 col">
+                        <form [formGroup] = "signupForm">
+
+                            <div class="form-group">
+                                <label>Country Name</label>
+                                <strong class="text-danger"> *</strong>
+                                <select class="custom-select" value="country_name" class="form-control" formControlName="country_name" required>
+                                     <option value="">Choose STATUS</option>
+                                    <option *ngFor="let country of countrys">{{country}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Currancy Name</label>
+                                <strong class="text-danger"> *</strong>
+                                <input 
+                                type="text" 
+                                id="description" 
+                                formControlName ="currancy_name"
+                                class="form-control"
+                                required
+                                value="currancy_name"
+                                placeholder="Enter Currancy name"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label>Alphabetic Code</label>
+                                <strong class="text-danger"> *</strong>
+                                <input type="text" 
+                                class="form-control"
+                                formControlName ="a_code"
+                                placeholder="Please enter only alphabets and fixed lenght 3"
+                                name="a_code"
+                                required>
+                            </div>
+                            <div class="form-group">
+                                <label>Numeric Code</label>
+                                <strong class="text-danger"> *</strong>
+                                <input type = "number"
+                                class="form-control"
+                                formControlName ="n_code"
+                                placeholder="Enter minimum 2 and maximum 4 digits"
+                                name="a_code"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status:</label>
+                                <strong class="text-danger"> *</strong>
+                                <div>
+                                  <input id="ACTIVE" type="radio" value="ACTIVE" name="status" formControlName="status">
+                                  <label for="active">Active</label>
+                               </div>
+                               <div>
+                                  <input id="INACTIVE" type="radio" value="INACTIVE" name="status" formControlName="status">
+                                  <label for="inactive">InActive</label>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn_submit" *ngIf="!isEditMode" [disabled]="!signupForm.valid" type="submit" (click)="onAddtask()">Add</button>
+                                  <button class="btn btn-primary btn_submit" *ngIf="isEditMode" [disabled]="!signupForm.valid" type="submit" (click)="onUpdatetask()">Update</button>
+                            </div> 
+                        </form>
+                        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</ng-template> 
