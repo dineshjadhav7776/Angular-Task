@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TaskData } from '../classes/TableData';
+import { TaskData } from '../classes/TaskData';
+
 
 @Injectable({
   providedIn: 'root'

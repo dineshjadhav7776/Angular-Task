@@ -6,8 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import { Validators, FormBuilder } from '@angular/forms';
-import { TaskData } from 'src/app/classes/TableData';
 import { CrudService } from 'src/app/Services/crud.service';
+import { TaskData } from 'src/app/classes/TaskData';
 
 
 @Component({
